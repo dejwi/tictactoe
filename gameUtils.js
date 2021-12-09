@@ -1,5 +1,6 @@
 const gameUtils = (function(){
     const gameboard = (function(){
+        let currSize = 3;
         let board = [
             ['X','X',''],
             ['','X',''],
@@ -7,17 +8,23 @@ const gameUtils = (function(){
         ];
         const get = () => board;
         const clear = () =>{
-            board = [
-                ['','',''],
-                ['','',''],
-                ['','','']
-            ];
+            board = [];
+            let row = [];
+            for (let i = 0; i < currSize ;i++) {
+                row.push('');
+            }
+            for (let i = 0; i < currSize ;i++) {
+                board.push(Array.from(row));
+            }
         };
         const update = (pos,val) =>{
             const posArray = pos.split('');
             board[posArray[0]][posArray[1]] = val;
         };
-        return {get, clear,update};
+        const customSize = (n) =>{
+            currSize = n;
+        };
+        return {get, clear,update,customSize};
     })();
     const draw = () => {
         const board = gameboard.get();

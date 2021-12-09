@@ -86,7 +86,7 @@ html,body{
     flex-direction: column;
     align-items: center;
 }
-.mainContainer .info button{
+.mainContainer .info .clearBtn{
     font-weight: 500;
     border: none;
     border-radius: 5px;
@@ -95,10 +95,28 @@ html,body{
     height: 22px;
     transition: 0.15s ease-out;
 }
-.mainContainer .info button:hover{
+.mainContainer .info .clearBtn:hover{
     background-color: rgb(209, 86, 86);
 }
 .mainContainer .info span{
     color: #535151;
     font-size: 25px;
+}
+.boardBtn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.boardBtn .sizeBtn{
+    margin-top: 5px;
+    border: none;
+    border-radius: 5px;
+    width: 110px;
+    height: 25px;
+    background-color: rgb(191, 209, 218);
+    transition: 0.15s ease-out;
+}
+.boardBtn .sizeBtn:hover{
+    background-color: rgb(175, 194, 204);
 }

@@ -1,15 +1,23 @@
-document.querySelector('.clearBtn').addEventListener('click'
-,() => {gameHandler.startBoard(); gameHandler.resetWinCount();});
-
 const playerFactory = (name,symbol) => {
     let wins = 0;
     return {wins,symbol,name};
 };
 
+document.querySelector('.clearBtn').addEventListener('click',() => gameHandler.reset());
+
+document.querySelector('.sizeBtn').addEventListener('click',() =>{
+    do{
+        var n = prompt('Enter size in range 3-7');
+    }while(n<3 || n>7)
+    gameUtils.gameboard.customSize(n);
+    gameHandler.reset();
+});
+
 const gameHandler = (function(){
     const boardContainer = document.querySelector('.boardContainer');
     const player1 = playerFactory('player1','⨉');
     const player2 = playerFactory('player2','◯');
+
     const turn = (function(){
         let turn = player1;
         const get = () => turn;
@@ -21,6 +29,11 @@ const gameHandler = (function(){
         }
         return {get,change,setDef};
     })();
+
+    const reset =()=>{
+        gameHandler.startBoard(); 
+        gameHandler.resetWinCount();
+    };
     //activate game event
     function boardStartClick(e){
         highlightCurrName(turn.get().name);
@@ -70,6 +83,7 @@ const gameHandler = (function(){
             e.target.classList.remove('playerWin');
             e.target.removeEventListener('transitionend',resetClass);
         }
+
         const x = document.querySelector(`p[data-id='${pname}']`);
         x.classList.remove('playerTurn');
         x.classList.add('playerWin');
@@ -95,7 +109,7 @@ const gameHandler = (function(){
         
     };
 
-    return{startBoard,resetWinCount};
+    return{startBoard,resetWinCount,reset};
 })();
 gameHandler.startBoard();
 
