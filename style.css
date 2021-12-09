@@ -1,3 +1,12 @@
+*{
+    font-family: roboto;
+}
+html,body{
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    background-color: #EEEDE7;
+}
 .boardRow{
     display: flex;
     flex-direction: row;
@@ -10,11 +19,11 @@
     justify-content: center;
     align-items: center;
 
-    background-color: #a994d4;
+    background-color: #b0a4c7;
     transition: 0.1s ease-out;
 }
 .boardCell:hover{
-    background-color: #8570af;
+    background-color: #a38dcc;
 }
 .boardCellStart{
     background-color: #B9B7BD ;
@@ -27,4 +36,69 @@
     height: 300px;
     display: flex;
     flex-direction: column;
+
+    font-weight: bold;
+    font-size: 30px;
+}
+.gameContainer{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.gameContainer .side{
+    display: flex;
+    flex-direction: column;
+    font-weight: bold;
+    text-align: center;
+    transition: 0.3s;
+}
+.gameContainer .side p{
+    color: #414141;
+    margin: 0px;
+    font-size: 40px;
+    transition: 0.1s ease-out;
+
+}
+.gameContainer .side span{
+    color: #6e6e6e;
+}
+.playerTurn{
+    color: #c25f5f !important;
+}
+.playerWin{
+    transition: 2s  ease-in-out !important;
+    color: rgb(42, 156, 42) !important;
+}
+.title{
+    font-size: 80px;
+    text-align: center;
+    margin: 0px;
+}
+.mainContainer{
+    display: flex;
+    flex-direction: column;
+    height: 220px;
+    justify-content: center;
+    align-items: center;
+}
+.mainContainer .info{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.mainContainer .info button{
+    font-weight: 500;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(224, 106, 106);
+    width: 100px;
+    height: 22px;
+    transition: 0.15s ease-out;
+}
+.mainContainer .info button:hover{
+    background-color: rgb(209, 86, 86);
+}
+.mainContainer .info span{
+    color: #535151;
+    font-size: 25px;
 }

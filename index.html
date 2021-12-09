@@ -10,18 +10,30 @@
     <link rel='stylesheet' href="style.css">
 </head>
 <body>
-    <h1>Tic Tac Toe</h1>
-    <div>
-        <button>Player</button>
-        <span>VS</span>
-        <button>Player</button>
+    <h1 class='title'>Tic Tac Toe</h1>
+    <div class='mainContainer'>
+        <div class='gameMode'>
+            <button>Player</button>
+            <span>VS</span>
+            <button>Player</button>
+        </div>
+        <div class='info'>
+            <span>Click on board to start!</span>
+            <button class='clearBtn'>reset</button>
+        </div>
     </div>
-    <div>
-        <span class='gameState'>Click on board to start</span>
-        <button class='clearBtn'>reset</button>
+    
+    <div class='gameContainer'>
+        <div class='side'>
+            <p data-id='player1'>Player 1</p>
+            <span data-id='player1'>wins: 0</span>
+        </div>
+        <div class='boardContainer'></div>
+        <div class='side' >
+            <p data-id='player2'>Player 2</p>
+            <span data-id='player2'>wins: 0</span>
+        </div>
     </div>
-    <div class='boardContainer'>
-
-    </div>
+    
 </body>
 </html>
