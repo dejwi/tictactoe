@@ -47,7 +47,6 @@ const gameHandler = (function(){
 
         
         const x = gameUtils.checkWinnerOrTie(player1,player2);
-        console.log(x);
         if(x==='tie'){
             startBoard();
         }
