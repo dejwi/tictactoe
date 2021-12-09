@@ -10,15 +10,21 @@
     justify-content: center;
     align-items: center;
 
-    background-color: #B9B7BD;
+    background-color: #a994d4;
     transition: 0.1s ease-out;
 }
 .boardCell:hover{
-    background-color: #868B8E;
+    background-color: #8570af;
+}
+.boardCellStart{
+    background-color: #B9B7BD ;
+}
+.boardCellStart:hover{
+    background-color: #868B8E ;
 }
 .boardContainer{
-    width: 200px;
-    height: 200px;
+    width: 300px;
+    height: 300px;
     display: flex;
     flex-direction: column;
 }

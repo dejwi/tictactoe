@@ -1,89 +1,81 @@
-const gameboard = (function(){
-    let board = [
-        ['X','X',''],
-        ['','X',''],
-        ['','','X']
-    ];
-    const getBoard = () => board;
-    return {getBoard};
-})();
-const gamehandler = (function(){
-    const draw = board => {
-        for (const row in board) {
-            let rowdiv = document.createElement('div');
-            rowdiv.classList.add('boardRow');
-
-            for(const square in board[row]){
-                let sqrdiv = document.createElement('div');
-                sqrdiv.classList.add('boardCell');
-
-                let content = document.createElement('span');
-                content.textContent = board[row][square];
-
-                sqrdiv.appendChild(content);
-                rowdiv.appendChild(sqrdiv);
-            }
-            document.querySelector('.boardContainer').appendChild(rowdiv);
-        }
-    };
-    const checkWinner = (player1,player2,board) =>{
-        const size = board.length;
-
-        //ex XXX === XXX
-        const checkWin = data => {
-            if(data === player1.symbol.repeat(size))
-                return player1;
-            else if(data === player2.symbol.repeat(size))
-                return player2;
-            return null;
-        };
-        let checkString = '';
-        //rows & columns
-        for(const row in board){
-            //horizontal check
-            checkString = '';
-            for(const cell in board){
-                checkString += board[row][cell];
-            }
-            if(x = checkWin(checkString)) return x;
-            
-            //vertical check
-            checkString = '';
-            for(const cell in board){
-                checkString += board[cell][row];
-            }
-            if(x = checkWin(checkString)) return x;
-        }
-        //diagnal1
-        checkString = '';
-        for(const x in board){
-            checkString += board[(size-x)-1][x];
-        }
-        if(x = checkWin(checkString)) return x;
-
-        //diagnal2
-        checkString = '';
-        for(const x in board){
-            checkString += board[x][x];
-        }
-        if(x = checkWin(checkString)) return x;
-
-        return null;
-    };
-    return {draw, checkWinner};
-})();
+document.querySelector('.clearBtn').addEventListener('click',() => {gameHandler.startBoard()});
 
 const playerFactory = (name,symbol) => {
     let wins = 0;
     return {wins,symbol,name};
 };
-const player1 = playerFactory('player1','X');
-const player2 = playerFactory('player2','O');
 
-gamehandler.draw(gameboard.getBoard());
 
-const logTxt = ()=>{
-    const x = gamehandler.checkWinner(player1,player2,gameboard.getBoard());
+/*const logTxt = ()=>{
+    const x = gameUtils.checkWinner(player1,player2);
     console.log((x) ? x.name : 'none');
 };
-logTxt();
+logTxt();*/
+
+const gameHandler = (function(){
+    const boardContainer = document.querySelector('.boardContainer');
+    const gameState = document.querySelector('.gameState');
+    const player1 = playerFactory('player1','X');
+    const player2 = playerFactory('player2','O');
+    const turn = (function(){
+        let turn = player1;
+        const get = () => turn;
+        const change = () =>{
+            turn = (turn===player1) ? player2 : player1;
+        };
+        return {get,change};
+    })();
+    //activate game event
+    function boardStartClick(e){
+        console.log(e);
+        console.log('start click');
+        gameState.textContent = `Turn: ${turn.get().name}`;
+        document.querySelectorAll('.boardCell').forEach(x => {
+            x.addEventListener('click',cellClick);
+            //change to active color
+            x.classList.remove('boardCellStart');
+        });
+
+        boardContainer.removeEventListener('click',boardStartClick);
+    }
+    function cellClick(e){
+        if(!e.target.textContent){
+            console.log('jd');
+            //cell content
+            e.target.textContent = turn.get().symbol;
+
+            gameUtils.update(e.target.dataset.pos,turn.get().symbol);
+
+            turn.change();
+            gameState.textContent = `Turn: ${turn.get().name}`;
+
+            
+            const x = gameUtils.checkWinnerOrTie(player1,player2);
+            console.log(x);
+            if(x==='tie'){
+                startBoard();
+            }
+            else if(x !== 'none'){
+                x.wins++;
+                alert(`${x.name} wins!!! win count: ${x.wins}`);
+                startBoard();
+            }
+
+        }
+    }
+    const startBoard = () =>{
+        gameUtils.resetBoard();
+        gameState.textContent = 'Click on board to start';
+        document.querySelectorAll('.boardCell').forEach(x =>x.classList.add('boardCellStart'));
+
+        //timeout becouse it clicks itself after reset???
+        setTimeout(()=>{
+            boardContainer.addEventListener('click',boardStartClick);
+        },100);
+        
+    };
+
+    return{startBoard};
+})();
+gameHandler.startBoard();
+
