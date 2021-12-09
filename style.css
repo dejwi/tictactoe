@@ -1,0 +1,24 @@
+.boardRow{
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+.boardCell{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background-color: #B9B7BD;
+    transition: 0.1s ease-out;
+}
+.boardCell:hover{
+    background-color: #868B8E;
+}
+.boardContainer{
+    width: 200px;
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+}
