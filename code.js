@@ -13,6 +13,21 @@ document.querySelector('.sizeBtn').addEventListener('click',() =>{
     gameHandler.reset();
 });
 
+
+const enemyOptions = ['Player','Easy bot'];
+let currentEnemy = 'Player';
+//switch enemies
+document.querySelector('.enemySel').addEventListener('click',(e)=>{
+    const index = enemyOptions.findIndex(e => e===currentEnemy);
+    //check if last element is selected
+    if(index === enemyOptions.length-1)
+        currentEnemy = enemyOptions[0];
+    else
+        currentEnemy = enemyOptions[index+1];
+    e.target.textContent = currentEnemy;
+    gameHandler.reset()
+});
+
 const gameHandler = (function(){
     const boardContainer = document.querySelector('.boardContainer');
     const player1 = playerFactory('player1','⨉');
@@ -46,29 +61,45 @@ const gameHandler = (function(){
         boardContainer.removeEventListener('click',boardStartClick);
     }
     function cellClick(e){
+        //if already has symbol cancel
         if(e.target.textContent)
             return;
         
-        //cell content
-        e.target.textContent = turn.get().symbol;
-
+        
+        //update player selection
         gameUtils.update(e.target.dataset.pos, turn.get().symbol);
 
-
         turn.change();
-        highlightCurrName(turn.get().name);
-
+        if(!checkWin()){
+            switch(currentEnemy){
+                // NOTE: using strings from array in case I want to change enemy names
+                //player
+                case enemyOptions[0]:
+                    highlightCurrName(turn.get().name);
+                    break;
+                //Easy bot
+                case enemyOptions[1]:
+                    gameUtils.update(randomSel.getPos(), turn.get().symbol);
+                    turn.change();
+                    checkWin();
+                    break;
+            }
+        }
         
+    }
+    const checkWin = () =>{
         const x = gameUtils.checkWinnerOrTie(player1,player2);
         if(x==='tie'){
             startBoard();
+            return true;
         }
         else if(x !== 'none'){
             x.wins++;
             higlightWin(x.name);
             startBoard();
+            return true;
         }
-    }
+    };
     const updateWinDisplay = () =>{
         document.querySelector(`span[data-id='player1']`).textContent = `wins: ${player1.wins}`;
         document.querySelector(`span[data-id='player2']`).textContent = `wins: ${player2.wins}`;

@@ -24,7 +24,17 @@ const gameUtils = (function(){
         const customSize = (n) =>{
             currSize = n;
         };
-        return {get, clear,update,customSize};
+        const getEmptyIDs = ()=>{
+            let array = [];
+            for (let i = 0; i < board.length; i++) {
+                for (let j = 0; j < board.length; j++) {
+                    if(!board[i][j])
+                        array.push(`${i}`+`${j}`);
+                }
+            }
+            return array;
+        };
+        return {get, clear,update,customSize,getEmptyIDs};
     })();
     const draw = () => {
         const board = gameboard.get();
@@ -38,6 +48,7 @@ const gameUtils = (function(){
                 let sqrdiv = document.createElement('div');
                 sqrdiv.classList.add('boardCell');
                 sqrdiv.dataset.pos = `${row}`+`${square}`;
+
                 let content = document.createElement('span');
                 content.textContent = board[row][square];
 
@@ -48,8 +59,8 @@ const gameUtils = (function(){
         }
     };
     const update = (pos,val) =>{
-        const board = gameboard.get();
         gameboard.update(pos,val);
+        const board = gameboard.get();
 
         document.querySelectorAll('.boardCell').forEach(e =>{
             const posArray = e.dataset.pos.split('');
