@@ -8,38 +8,60 @@ document.querySelector('.clearBtn').addEventListener('click',() => gameHandler.r
 document.querySelector('.sizeBtn').addEventListener('click',() =>{
     do{
         var n = prompt('Enter size in range 3-7');
-    }while(n<3 || n>7)
+    }while(n<3 && n>7)
     gameUtils.gameboard.customSize(n);
 
-    //reset enemy for safety reasons
-    currentEnemy = enemyOptions[0];
-    document.querySelector('.enemySel').textContent = currentEnemy;
-
+    enemyOptions.setDef();
         
     gameHandler.reset();
 });
 
 
-const enemyOptions = ['Player','Easy bot','aiPlayer'];
-let currentEnemy = 'Player';
-//switch enemies
-document.querySelector('.enemySel').addEventListener('click',(e)=>{
-    const index = enemyOptions.findIndex(e => e===currentEnemy);
-    //check if last element is selected
-    if(index === enemyOptions.length-1)
-        currentEnemy = enemyOptions[0];
-    else{
-        //cant select ai if size larger than 3
-        if(gameUtils.gameboard.get().length > 3 && index+1 === 2){
-            currentEnemy = enemyOptions[0];
+const enemyOptions = {
+    btn: document.querySelector('.enemySel'),
+    types: ['Player','EasyAi','UnbeatableAi'],
+    current: 'Player',
+    setDef: function(){
+        this.current = this.types[0];
+        this.btn.textContent = this.current;
+        gameHandler.reset();
+    },
+    setNext: function(){
+        const index = this.types.findIndex(e => e===this.current);
+        if(index === this.types.length-1)
+            this.current = this.types[0];
+        else{
+            //cant select ai if size larger than 3
+            if(gameUtils.gameboard.get().length > 3 && index+1 === this.types.length-1){
+                this.current = this.types[0];
+            }
+            else
+                this.current = this.types[index+1];
         }
-        else
-            currentEnemy = enemyOptions[index+1];
+        this.btn.textContent = this.current;
+        gameHandler.reset();
+        this.changeColor();
+    },
+    changeColor: function(){
+        if(this.btn.classList != 'enemySel') this.btn.classList = 'enemySel';
+        switch(this.current){
+            //player
+            case this.types[0]:
+                this.btn.classList.add('player');
+                break;
+            //easyai
+            case this.types[1]:
+                this.btn.classList.add('easyai');
+                break;
+            //hardai
+            case this.types[2]:
+                this.btn.classList.add('hardai');
+                break;
+        }
     }
-
-    e.target.textContent = currentEnemy;
-    gameHandler.reset()
-});
+}
+//switch enemies
+document.querySelector('.enemySel').addEventListener('click',(e)=>enemyOptions.setNext());
 
 const gameHandler = (function(){
     const boardContainer = document.querySelector('.boardContainer');
@@ -84,20 +106,20 @@ const gameHandler = (function(){
 
         turn.change();
         if(!checkWin()){
-            switch(currentEnemy){
+            switch(enemyOptions.current){
                 // NOTE: using strings from array in case I want to change enemy names
                 //player
-                case enemyOptions[0]:
+                case enemyOptions.types[0]:
                     highlightCurrName(turn.get().name);
                     break;
                 //Easy bot
-                case enemyOptions[1]:
+                case enemyOptions.types[1]:
                     gameUtils.update(randomSel.getPos(), turn.get().symbol);
                     turn.change();
                     checkWin();
                     break;
                 //ai
-                case enemyOptions[2]:
+                case enemyOptions.types[2]:
                     gameUtils.update(aiPlayer(player1,player2).bestMove(), turn.get().symbol);
                     turn.change();
                     checkWin();
@@ -161,5 +183,6 @@ const gameHandler = (function(){
 
     return{startBoard,resetWinCount,reset};
 })();
+enemyOptions.changeColor();
 gameHandler.startBoard();
 

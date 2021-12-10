@@ -120,3 +120,18 @@ html,body{
 .boardBtn .sizeBtn:hover{
     background-color: rgb(175, 194, 204);
 }
+.enemySel {
+    border: none;
+    border-radius: 5px;
+    padding: 6px 13px 6px 13px;
+    transition: 0.2s ease-out;
+}
+.enemySel.player{
+    background-color: rgb(74, 228, 113) !important;
+}
+.enemySel.easyai{
+    background-color: rgb(77, 101, 211) !important;
+}
+.enemySel.hardai{
+    background-color: rgb(230, 90, 90) !important;
+}
