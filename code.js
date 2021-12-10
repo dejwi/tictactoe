@@ -10,11 +10,17 @@ document.querySelector('.sizeBtn').addEventListener('click',() =>{
         var n = prompt('Enter size in range 3-7');
     }while(n<3 || n>7)
     gameUtils.gameboard.customSize(n);
+
+    //reset enemy for safety reasons
+    currentEnemy = enemyOptions[0];
+    document.querySelector('.enemySel').textContent = currentEnemy;
+
+        
     gameHandler.reset();
 });
 
 
-const enemyOptions = ['Player','Easy bot'];
+const enemyOptions = ['Player','Easy bot','aiPlayer'];
 let currentEnemy = 'Player';
 //switch enemies
 document.querySelector('.enemySel').addEventListener('click',(e)=>{
@@ -22,8 +28,15 @@ document.querySelector('.enemySel').addEventListener('click',(e)=>{
     //check if last element is selected
     if(index === enemyOptions.length-1)
         currentEnemy = enemyOptions[0];
-    else
-        currentEnemy = enemyOptions[index+1];
+    else{
+        //cant select ai if size larger than 3
+        if(gameUtils.gameboard.get().length > 3 && index+1 === 2){
+            currentEnemy = enemyOptions[0];
+        }
+        else
+            currentEnemy = enemyOptions[index+1];
+    }
+
     e.target.textContent = currentEnemy;
     gameHandler.reset()
 });
@@ -80,6 +93,12 @@ const gameHandler = (function(){
                 //Easy bot
                 case enemyOptions[1]:
                     gameUtils.update(randomSel.getPos(), turn.get().symbol);
+                    turn.change();
+                    checkWin();
+                    break;
+                //ai
+                case enemyOptions[2]:
+                    gameUtils.update(aiPlayer(player1,player2).bestMove(), turn.get().symbol);
                     turn.change();
                     checkWin();
                     break;

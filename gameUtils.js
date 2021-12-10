@@ -71,8 +71,8 @@ const gameUtils = (function(){
         gameboard.clear();
         draw();
     };
-    const checkWinnerOrTie = (player1,player2) =>{
-        const board = gameboard.get();
+    //return player that won or 'none','tie'
+    const checkWinnerOrTie = (player1,player2, board = gameboard.get()) =>{
         const size = board.length;
 
         //ex XXX === XXX
