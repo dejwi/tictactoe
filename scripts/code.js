@@ -1,45 +1,7 @@
 const enemyOptions = {
     btn: document.querySelector('.enemySel'),
     types: ['Player','EasyAi','UnbeatableAi'],
-    current: 'Player',
-    setDef: function(){
-        this.current = this.types[0];
-        this.btn.textContent = this.current;
-        gameHandler.reset();
-    },
-    setNext: function(){
-        const index = this.types.findIndex(e => e===this.current);
-        if(index === this.types.length-1)
-            this.current = this.types[0];
-        else{
-            //cant select ai if size larger than 3
-            if(gameUtils.gameboard.get().length > 3 && index+1 === this.types.length-1){
-                this.current = this.types[0];
-            }
-            else
-                this.current = this.types[index+1];
-        }
-        this.btn.textContent = this.current;
-        gameHandler.reset();
-        this.changeColor();
-    },
-    changeColor: function(){
-        if(this.btn.classList != 'enemySel') this.btn.classList = 'enemySel';
-        switch(this.current){
-            //player
-            case this.types[0]:
-                this.btn.classList.add('player');
-                break;
-            //easyai
-            case this.types[1]:
-                this.btn.classList.add('easyai');
-                break;
-            //hardai
-            case this.types[2]:
-                this.btn.classList.add('hardai');
-                break;
-        }
-    }
+    current: 'Player'
 };
 const btnFunc = (function(){
     function changeSize(){
@@ -57,15 +19,54 @@ const btnFunc = (function(){
         e.target.textContent = x.name;
         gameHandler.startBoard();
     };
-    return {changeSize,switchWhoStart};
+    const enemySel = (function(){
+        function changeColor(){
+            const btn = document.querySelector('.enemySel');
+            if(btn.classList != 'enemySel') btn.classList = 'enemySel';
+            switch(enemyOptions.current){
+                //player
+                case enemyOptions.types[0]:
+                    btn.classList.add('player');
+                    break;
+                //easyai
+                case enemyOptions.types[1]:
+                    btn.classList.add('easyai');
+                    break;
+                //hardai
+                case enemyOptions.types[2]:
+                    btn.classList.add('hardai');
+                    break;
+            }
+        };
+        function setNext(){
+            const btn = document.querySelector('.enemySel');
+            const index = enemyOptions.types.findIndex(e => e===enemyOptions.current);
+            if(index === enemyOptions.types.length-1)
+                enemyOptions.current = enemyOptions.types[0];
+            else{
+                //cant select ai if size larger than 3
+                if(gameUtils.gameboard.get().length > 3 && index+1 === enemyOptions.types.length-1){
+                    enemyOptions.current = enemyOptions.types[0];
+                }
+                else
+                    enemyOptions.current = enemyOptions.types[index+1];
+            }
+            btn.textContent = enemyOptions.current;
+            gameHandler.reset();
+            changeColor();
+        };
+        return {changeColor, setNext}
+    })();
+    
+    return {changeSize,switchWhoStart,enemySel};
 })();
 
 document.querySelector('.clearBtn').addEventListener('click',() => gameHandler.reset());
 document.querySelector('.sizeBtn').addEventListener('click',() => btnFunc.changeSize());
 document.querySelector('.whoStart').addEventListener('click',(e)=>btnFunc.switchWhoStart(e));
-document.querySelector('.enemySel').addEventListener('click',()=>enemyOptions.setNext());
+document.querySelector('.enemySel').addEventListener('click',()=>btnFunc.enemySel.setNext());
 
 
-enemyOptions.changeColor();
+btnFunc.enemySel.changeColor();
 gameHandler.startBoard();
 
