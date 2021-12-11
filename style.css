@@ -6,6 +6,7 @@ html,body{
     height: 100%;
     margin: 0px;
     background-color: #EEEDE7;
+    font-size: 62.5%;
 }
 .boardRow{
     display: flex;
@@ -32,8 +33,10 @@ html,body{
     background-color: #868B8E ;
 }
 .boardContainer{
-    width: 300px;
-    height: 300px;
+    max-width: 300px;
+    max-height: 300px;
+    width: 40vw;
+    height: 40vw;
     display: flex;
     flex-direction: column;
 
@@ -51,11 +54,12 @@ html,body{
     font-weight: bold;
     text-align: center;
     transition: 0.3s;
+    font-size: 16px;
 }
 .gameContainer .side p{
     color: #414141;
     margin: 0px;
-    font-size: 40px;
+    font-size: 3.75vw;
     transition: 0.1s ease-out;
 
 }
