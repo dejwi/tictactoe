@@ -10,7 +10,7 @@ const gameHandler = (function(){
     const turn = (function(){
         let defTurn = player1;
         let turn = defTurn;
-        const get = () => turn;
+        const get = () => Object.assign({},turn);
         const change = () =>{
             turn = (turn===player1) ? player2 : player1;
         };
@@ -49,7 +49,8 @@ const gameHandler = (function(){
         });
         
         // && enemyOptions.current == enemyOptions.types[2]
-        if(turn.get() === player2){
+        if(turn.get().name === player2.name){
+            console.log('jd');
             cellClick();
             highlightCurrName(turn.get().name);
         }
@@ -128,7 +129,6 @@ const gameHandler = (function(){
         document.querySelector(`p[data-id='${pname}']`).classList.add('playerTurn');
     };
     const startBoard = () =>{
-
         turn.setDef();
 
         updateWinDisplay();

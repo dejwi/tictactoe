@@ -2,11 +2,11 @@ const gameUtils = (function(){
     const gameboard = (function(){
         let currSize = 3;
         let board = [
-            ['X','X',''],
-            ['','X',''],
-            ['','','X']
+            ['','',''],
+            ['','',''],
+            ['','','']
         ];
-        const get = () => board;
+        const get = () => [...board];
         const clear = () =>{
             board = [];
             let row = [];

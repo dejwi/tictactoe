@@ -1,5 +1,4 @@
 const enemyOptions = {
-    btn: document.querySelector('.enemySel'),
     types: ['Player','EasyAi','UnbeatableAi'],
     current: 'Player'
 };
