@@ -14,14 +14,16 @@ const aiPlayer = (player,ai) =>{
       };
     let counter = 0;
     const board = [...gameUtils.gameboard.get()];
-    const size = board.length;
     function bestMove() {
+        //if empty select left up corner (minimax chooses it as well)
+        // to save 3seconds!!!! of calculation time
+        if(gameUtils.gameboard.getEmptyIDs().length === 9)
+            return '00';
         // AI to make its turn
         let bestScore = -Infinity;
         let move;
-        for (let i = 0; i < size; i++) {
-          for (let j = 0; j < size; j++) {
-            counter++;
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
             // Is the spot available?
             if (board[i][j] == '') {
               board[i][j] = ai.symbol;
@@ -34,7 +36,6 @@ const aiPlayer = (player,ai) =>{
             }
           }
         }
-        console.log(counter);
         return `${move.i}`+`${move.j}`;
         //board[move.i][move.j] = ai;
       }
@@ -50,9 +51,9 @@ const aiPlayer = (player,ai) =>{
       
         if (isMaximizing) {
           let bestScore = -Infinity;
-          for (let i = 0; i < size; i++) {
-            for (let j = 0; j < size; j++) {
-                counter++;
+          for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
+                
               // Is the spot available?
               if (board[i][j] == '') {
                 board[i][j] = ai.symbol;
@@ -65,9 +66,8 @@ const aiPlayer = (player,ai) =>{
           return bestScore;
         } else {
           let bestScore = Infinity;
-          for (let i = 0; i < size; i++) {
-            for (let j = 0; j < size; j++) {
-                counter++;
+          for (let i = 0; i < 3; i++) {
+            for (let j = 0; j < 3; j++) {
               // Is the spot available?
               if (board[i][j] == '') {
                 board[i][j] = player.symbol;

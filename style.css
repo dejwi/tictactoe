@@ -85,6 +85,7 @@ html,body{
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin-top: 20px;
 }
 .mainContainer .info .clearBtn{
     font-weight: 500;
@@ -134,4 +135,29 @@ html,body{
 }
 .enemySel.hardai{
     background-color: rgb(230, 90, 90) !important;
+}
+.whoStartCont{
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    margin-top: 5px;
+}
+.whoStartCont span{
+    font-size: 11px;
+}
+.whoStartCont button{
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(161, 226, 205);
+    font-size: 13px;
+    transition: 0.15s ease-out;
+}
+.whoStartCont button:hover{
+    background-color: rgb(139, 212, 189);
+}
+.gameMode{
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 23px;
 }
