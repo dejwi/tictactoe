@@ -9,7 +9,7 @@ const btnFunc = (function(){
         }while(n<3 && n>7)
         gameUtils.gameboard.customSize(n);
     
-        enemyOptions.setDef();
+        enemySel.setNext(true);
         gameHandler.reset();
     };
     function switchWhoStart(e){
@@ -37,8 +37,14 @@ const btnFunc = (function(){
                     break;
             }
         };
-        function setNext(){
+        function setNext(setDef = false){
             const btn = document.querySelector('.enemySel');
+            if(setDef){
+                enemyOptions.current = enemyOptions.types[0];
+                changeColor();
+                btn.textContent = enemyOptions.current;
+                return;
+            }
             const index = enemyOptions.types.findIndex(e => e===enemyOptions.current);
             if(index === enemyOptions.types.length-1)
                 enemyOptions.current = enemyOptions.types[0];

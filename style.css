@@ -54,7 +54,6 @@ html,body{
     font-weight: bold;
     text-align: center;
     transition: 0.3s;
-    font-size: 16px;
 }
 .gameContainer .side p{
     color: #414141;
@@ -65,6 +64,8 @@ html,body{
 }
 .gameContainer .side span{
     color: #6e6e6e;
+    font-size: 2vw;
+
 }
 .playerTurn{
     color: #c25f5f !important;
